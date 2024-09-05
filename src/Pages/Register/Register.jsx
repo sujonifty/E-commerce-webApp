@@ -1,37 +1,128 @@
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link } from "react-router-dom";
 import loginImg from "../../assets/login.png"
 import googleIcon from "../../assets/icons-google.png"
 import appleIcon from "../../assets/icons-apple.png"
+import { authContext } from "../../Provider/AuthProvider";
+import { auth } from "../../Firebase/Firebase.config";
+import { updateProfile } from "firebase/auth";
+import Swal from "sweetalert2";
 
 
 const Register = () => {
+    const { createUser, setUser } = useContext(authContext);
     const [showPassword, setShowPassword] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState();
 
+    const handleRegister = () => {
+        const name = `${firstName} ${lastName}`;
+        console.log(name)
+        setError("");
+
+        if (password.length < 6) {
+            setError('password must be 6 characters');
+            return;
+        }
+        if (!/^(?=.*[a-z])(?=.*[A-Z]).+$/.test(password)) {
+            setError('password must be an Uppercase & LowerCase letter');
+            return;
+        }
+        createUser(email, password)
+            .then(result => {
+                console.log(result);
+
+                // update profile 
+                updateProfile(auth.currentUser, {
+                    displayName: name,
+                    // photoURL: photo,
+
+                })
+                    .then(() => {
+                        setUser((prevUser) => {
+                            return { ...prevUser, displayName: name, email: email }
+                        })
+                        console.log("profile updated");
+                    })
+                    .catch(error => {
+                        setError(error.message);
+                    })
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Registration successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                })
+            })
+            .catch(error => {
+                setError(error.message);
+            })
+    }
     return (
-        <div className="flex justify-center bg-red-500 items-center">
+        <div className="flex justify-center items-center">
 
             <div className=" max-w-[55%] mx-auto">
                 <Card className=" max-w-screen md:p-10 bg-[#FAFAFA]">
                     <h4 className="text-3xl font-medium">Welcome Back!</h4>
-                    <h3 className="text-4xl font-bold text-white">
+                    <h3 className="text-4xl font-bold">
                         Furni<span className="text-[#1E99F5]">Flex</span>
                     </h3>
                     <p className="text-[#707070]">Signup for purchase your desire products</p>
                     <form className="flex flex-col gap-4">
+                        <div className="flex space-x-4">
+                            <div>
+                                <div className="mb-2 text-[#707070] ">
+                                    <Label value="First name(optional)" />
+                                </div>
+                                <TextInput
+                                    name="name1"
+                                    type="test"
+                                    placeholder="First name"
+                                    value={firstName}
+                                    onChange={(event) => setFirstName(event.target.value)}
+                                    required />
+                            </div>
+                            <div>
+                                <div className="mb-2 text-[#707070] ">
+                                    <Label value="Last name(optional)" />
+                                </div>
+                                <TextInput
+                                    name="name2"
+                                    type="text"
+                                    placeholder="Last name "
+                                    value={lastName}
+                                    onChange={(event) => setLastName(event.target.value)}
+                                    required />
+                            </div>
+                        </div>
                         <div>
-                            <div className="mb-2 ">
+                            <div className="mb-2 text-[#707070] ">
                                 <Label value="Email Address" />
                             </div>
-                            <TextInput name="email1" type="email" placeholder="Enter your email " required />
+                            <TextInput
+                                name="email"
+                                type="email"
+                                placeholder="Enter your email "
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                                required />
                         </div>
                         <div className="relative">
-                            <div className="mb-2 ">
+                            <div className="mb-2 text-[#707070] ">
                                 <Label value="Password" />
                             </div>
-                            <TextInput name="password1" type={showPassword ? "text" : "password"} placeholder="Enter your password" required />
+                            <TextInput
+                                name="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter your password"
+                                required />
                             <span className="absolute right-5 bottom-3" onClick={() => { setShowPassword(!showPassword) }}>
                                 {
                                     showPassword ? <IoMdEyeOff /> : <IoMdEye />
@@ -39,13 +130,14 @@ const Register = () => {
                                 }
                             </span>
                         </div>
-                        <small className="text-blue-700 text-right">Forgot Password</small>
-
+                        {
+                            error && <small className="text-red-700">{error}</small>
+                        }
                         <div className="flex items-center gap-2">
-                            <Checkbox />
-                            <Label name="condition">I agree to the <Link>Terms & Policy</Link></Label>
+                            <Checkbox required />
+                            <Label name="condition">I agree to the <Link><u>Terms & Policy</u></Link></Label>
                         </div>
-                        <Button type="submit" className="text-white bg-black">Submit</Button>
+                        <Button type="button" onClick={handleRegister} className="text-white bg-black">Signup</Button>
 
                     </form>
                     <div className="flex items-center justify-center my-4">
@@ -66,7 +158,7 @@ const Register = () => {
                         </Button>
 
                     </div>
-                    <p className="mx-auto">Have an account? <Link className="text-blue-700">Sign Up</Link></p>
+                    <p className="mx-auto">Have an account? <Link to='/login' className="text-blue-700">Login</Link></p>
 
                 </Card>
             </div>

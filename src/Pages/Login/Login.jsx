@@ -1,13 +1,63 @@
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginImg from "../../assets/login.png"
 import googleIcon from "../../assets/icons-google.png"
 import appleIcon from "../../assets/icons-apple.png"
+import Swal from "sweetalert2";
+import { authContext } from "../../Provider/AuthProvider";
 const Login = () => {
+    const {googleSignIn, signIn, } = useContext(authContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { error, setError } = useState('');
 
+    //Handle Login using email & password
+    const handleLogin = () => {
+        // setError("");
+
+        signIn(email, password)
+            .then(result => {
+                console.log(result.user);
+
+                navigate(location?.state ? location.state : '/')
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Login successfully',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                })
+            })
+            .catch(error => {
+                if (error.message) {
+                    setError('Email or password is wrong')
+                }
+
+            })
+    }
+
+    // login by google
+    const handleGoogleLogin = () => {
+        googleSignIn()
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+                navigate(location?.state ? location.state : '/')
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Login successfully by Google',
+                    icon: 'success',
+                    confirmButtonText: 'Cool'
+                })
+            })
+            .catch(error => {
+                setError(error.message);
+            })
+    }
     return (
         <div className="flex justify-center items-center">
 
@@ -17,16 +67,28 @@ const Login = () => {
                     <p className="text-[#707070]">Enter your Credentials to access your account</p>
                     <form className="flex flex-col gap-4">
                         <div>
-                            <div className="mb-2 ">
+                            <div className="mb-2 text-[#707070] ">
                                 <Label value="Email Address" />
                             </div>
-                            <TextInput name="email1" type="email" placeholder="Enter your email " required />
+                            <TextInput
+                                name="email"
+                                type="email"
+                                placeholder="Enter your email "
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                                required />
                         </div>
                         <div className="relative">
-                            <div className="mb-2 ">
+                            <div className="mb-2 text-[#707070] ">
                                 <Label value="Password" />
                             </div>
-                            <TextInput name="password1" type={showPassword ? "text" : "password"} placeholder="Enter your password" required />
+                            <TextInput
+                                name="password"
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                type={showPassword ? "text" : "password"}
+                                placeholder="Enter your password"
+                                required />
                             <span className="absolute right-5 bottom-3" onClick={() => { setShowPassword(!showPassword) }}>
                                 {
                                     showPassword ? <IoMdEyeOff /> : <IoMdEye />
@@ -35,12 +97,14 @@ const Login = () => {
                             </span>
                         </div>
                         <small className="text-blue-700 text-right">Forgot Password</small>
-
+                        {
+                            error && <small className="text-red-700">{error}</small>
+                        }
                         <div className="flex items-center gap-2">
                             <Checkbox />
                             <Label name="condition">I agree to the <Link>Terms & Policy</Link></Label>
                         </div>
-                        <Button type="submit" className="text-white bg-black">Submit</Button>
+                        <Button type="button" onClick={handleLogin} className="text-white bg-black">Submit</Button>
 
                     </form>
                     <div className="flex items-center justify-center my-4">
@@ -49,19 +113,19 @@ const Login = () => {
                         <div className="h-px w-full bg-gray-300"></div>
                     </div>
                     <div className="flex space-x-4">
-      <Button color="gray" className="flex items-center">
-        {/* <FaGoogle className="mr-2" />  */}
-        <img src={googleIcon} alt="google icon" className="mr-2"/>
-        Login with Google
-      </Button>
-      
-      <Button color="gray" className="flex items-center">
-      <img src={appleIcon} alt="apple icon" className="mr-2"/>
-        Login with Apple
-      </Button>
-      
-    </div>
-    <p className="mx-auto">Have an account? <Link className="text-blue-700">Sign Up</Link></p>
+                        <Button onClick={handleGoogleLogin} color="gray" className="flex items-center">
+                            {/* <FaGoogle className="mr-2" />  */}
+                            <img src={googleIcon} alt="google icon" className="mr-2" />
+                            Login with Google
+                        </Button>
+
+                        <Button color="gray" className="flex items-center">
+                            <img src={appleIcon} alt="apple icon" className="mr-2" />
+                            Login with Apple
+                        </Button>
+
+                    </div>
+                    <p className="mx-auto">Have an account? <Link to='/register' className="text-blue-700">Sign Up</Link></p>
 
                 </Card>
             </div>
