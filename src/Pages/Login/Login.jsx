@@ -11,8 +11,8 @@ const Login = () => {
     return (
         <div className="flex justify-center items-center">
 
-            <div className="w-3/5 mx-auto">
-                <Card className=" max-w-lg md:p-10 bg-[#FAFAFA]">
+            <div className="max-w-[55%] mx-auto">
+                <Card className=" max-w-screen md:p-10 bg-[#FAFAFA]">
                     <h4 className="text-3xl font-medium">Welcome Back!</h4>
                     <p className="text-[#707070]">Enter your Credentials to access your account</p>
                     <form className="flex flex-col gap-4">
@@ -76,7 +76,7 @@ const Login = () => {
                     <p>Discover a seamless shopping experience with our curated collection of products. From fashion to electronics, we bring quality.</p>
                 </div>
             </div> */}
-            <div className="flex-1 w-2/5 relative">
+            <div className="flex-1 max-w-[45%] relative">
                 <img className="w-full rounded-xl" src={loginImg} alt="login image" />
 
                 {/* Overlay */}
