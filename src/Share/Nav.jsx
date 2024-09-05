@@ -52,7 +52,7 @@ const Nav = () => {
                             <Navbar.Link href="#" active>
                                 Home
                             </Navbar.Link>
-                            <Navbar.Link href="#">Products</Navbar.Link>
+                            <Navbar.Link href="/products">Products</Navbar.Link>
                             <Navbar.Link href="#">Services</Navbar.Link>
                             <Navbar.Link href="#">Categories</Navbar.Link>
                             <Navbar.Link href="#">Custom</Navbar.Link>
@@ -67,7 +67,7 @@ const Nav = () => {
                             <Navbar.Link href="#" active>
                                 Home
                             </Navbar.Link>
-                            <Navbar.Link href="#">Products</Navbar.Link>
+                            <Navbar.Link href="/products">Products</Navbar.Link>
                             <Navbar.Link href="#">Services</Navbar.Link>
                             <Navbar.Link href="#">Categories</Navbar.Link>
                             <Navbar.Link href="#">Custom</Navbar.Link>
