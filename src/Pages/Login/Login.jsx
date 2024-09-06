@@ -6,9 +6,9 @@ import loginImg from "../../assets/login.png"
 import googleIcon from "../../assets/icons-google.png"
 import appleIcon from "../../assets/icons-apple.png"
 import Swal from "sweetalert2";
-import { authContext } from "../../Provider/AuthProvider";
+import { AuthContext } from "../../Provider/AuthProvider";
 const Login = () => {
-    const {googleSignIn, signIn, } = useContext(authContext);
+    const {googleSignIn, signIn, } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -24,7 +24,7 @@ const Login = () => {
             .then(result => {
                 console.log(result.user);
 
-                navigate(location?.state ? location.state : '/')
+                navigate(location?.state? location.state : '/')
                 Swal.fire({
                     title: 'Success!',
                     text: 'Login successfully',
@@ -46,7 +46,7 @@ const Login = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user);
-                navigate(location?.state ? location.state : '/')
+                navigate(location?.state? location.state : '/')
                 Swal.fire({
                     title: 'Success!',
                     text: 'Login successfully by Google',

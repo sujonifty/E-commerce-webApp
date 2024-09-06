@@ -4,11 +4,12 @@ import { auth } from "../Firebase/Firebase.config";
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import PropTypes from 'prop-types';
 
-export const authContext = createContext(null);
+export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
+    // const { error, setError } = useState('');
 
 
     // create user with email & password
@@ -64,9 +65,9 @@ const AuthProvider = ({ children }) => {
         logOut,
     }
     return (
-        <authContext.Provider value={info}>
+        <AuthContext.Provider value={info}>
             {children}
-        </authContext.Provider>
+        </AuthContext.Provider>
     );
 };
 AuthProvider.propTypes = {

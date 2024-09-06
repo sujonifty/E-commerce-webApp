@@ -67,6 +67,7 @@ const Products = () => {
             console.log('Rocking chair', filterBrands)
         
     }
+    
     return (
         <div className="flex">
     {/* Sidebar */}

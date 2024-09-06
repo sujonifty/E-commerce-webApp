@@ -1,10 +1,14 @@
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import { useContext } from "react";
 import Swal from "sweetalert2";
-import { authContext } from "../Provider/AuthProvider";
+import { AuthContext } from "../Provider/AuthProvider";
 import demoImg from "../assets/Account.png"
+import { CiShoppingCart } from "react-icons/ci";
+import useCart from "../hooks/useCart";
 const Nav = () => {
-    const { user, logOut } = useContext(authContext);
+    const { user, logOut } = useContext(AuthContext);
+    const [cart]=useCart();
+    // console.log('cart data',cart)
     const handleLogOut = () => {
         logOut()
             .then(() => {
@@ -18,7 +22,7 @@ const Nav = () => {
             .catch((error) => console.log(error))
     }
     return (
-        <Navbar fluid rounded>
+        <Navbar className="border-b-2" fluid rounded>
             <Navbar.Brand >
                 <div className="flex items-center justify-center text-white text-2xl font-bold w-7 h-7  bg-blue-500 rounded-full ">
                     F
@@ -29,11 +33,15 @@ const Nav = () => {
                 user ?
                     <>
                         <div className="flex md:order-2">
+                            <div className="flex mr-4">
+                            <CiShoppingCart className=" text-3xl"/>
+                                <h1 className="  text-black -ml-l "><span>{cart.length}</span></h1>
+                            </div>
                             <Dropdown
                                 arrowIcon={false}
                                 inline
                                 label={
-                                    <Avatar alt="User settings" img={user.photoURL? user.photoURL: demoImg} rounded />
+                                    <Avatar alt="User settings" img={user.photoURL ? user.photoURL : demoImg} rounded />
                                 }
                             >
                                 <Dropdown.Header>
@@ -61,7 +69,7 @@ const Nav = () => {
                     </>
                     :
                     <>
-                        
+
 
                         <Navbar.Collapse>
                             <Navbar.Link href="#" active>

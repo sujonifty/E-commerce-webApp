@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 import loginImg from "../../assets/login.png"
 import googleIcon from "../../assets/icons-google.png"
 import appleIcon from "../../assets/icons-apple.png"
-import { authContext } from "../../Provider/AuthProvider";
+import { AuthContext } from "../../Provider/AuthProvider";
 import { auth } from "../../Firebase/Firebase.config";
 import { updateProfile } from "firebase/auth";
 import Swal from "sweetalert2";
 
 
 const Register = () => {
-    const { createUser, setUser } = useContext(authContext);
+    const { createUser, setUser } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
