@@ -25,6 +25,7 @@ const ProductCards = ({ item }) => {
                 title,
                 image,
                 price,
+                quantity:1
             };
     
             axiosPublic.post('/cartdata', cartItem)

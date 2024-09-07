@@ -5,6 +5,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 import demoImg from "../assets/Account.png"
 import { CiShoppingCart } from "react-icons/ci";
 import useCart from "../hooks/useCart";
+import { Link } from "react-router-dom";
 const Nav = () => {
     const { user, logOut } = useContext(AuthContext);
     const [cart]=useCart();
@@ -33,10 +34,10 @@ const Nav = () => {
                 user ?
                     <>
                         <div className="flex md:order-2">
-                            <div className="flex mr-4">
+                            <Link to="/carts" className="flex mr-4">
                             <CiShoppingCart className=" text-3xl"/>
                                 <h1 className="  text-black -ml-l "><span>{cart.length}</span></h1>
-                            </div>
+                            </Link>
                             <Dropdown
                                 arrowIcon={false}
                                 inline
