@@ -28,7 +28,7 @@ const ProductCards = ({ item }) => {
                 quantity:1
             };
     
-            axiosPublic.post('/cartdata', cartItem)
+            axiosPublic.post('/cartData', cartItem)
                 .then(res => {
                     // console.log(res.data)
                     if (res.data.insertedId) {
@@ -36,6 +36,17 @@ const ProductCards = ({ item }) => {
                             position: "top-end",
                             icon: "success",
                             title: `${category} added to your cart`,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        // refetch cart to update the cart items count
+                        refetch();
+                    }
+                    else if (res.data.modifiedCount > 0) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: `added to your cart`,
                             showConfirmButton: false,
                             timer: 1500
                         });

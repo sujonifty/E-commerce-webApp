@@ -59,9 +59,9 @@ const Login = () => {
             })
     }
     return (
-        <div className="flex justify-center items-center">
+        <div className="flex flex-col md:flex-row space-y-16 md:space-y-0 mt-16 md:mt-auto justify-center items-center">
 
-            <div className="max-w-[55%] mx-auto">
+            <div className="max-w-full md:max-w-[55%] mx-auto">
                 <Card className=" max-w-screen md:p-10 bg-[#FAFAFA]">
                     <h4 className="text-3xl font-medium">Welcome Back!</h4>
                     <p className="text-[#707070]">Enter your Credentials to access your account</p>
@@ -129,22 +129,12 @@ const Login = () => {
 
                 </Card>
             </div>
-            {/* <div className=" flex-1 w-2/5 bg-blue-400">
-                <div className="relative">
-                    <img className="w-full" src={loginImg} alt="login image" />
-
-                </div>
-                <div className="bg-rose-950 absolute top-0 bottom-0 left-0 right-0">
-                    <div className=" flex items-center justify-center text-white text-2xl font-bold w-32 h-32 bg-blue-500 rounded-full">F</div>
-                    <h3 className="text-4xl font-bold">Furni<span className="text-[#1E99F5]">Flex</span></h3>
-                    <p>Discover a seamless shopping experience with our curated collection of products. From fashion to electronics, we bring quality.</p>
-                </div>
-            </div> */}
-            <div className="flex-1 max-w-[45%] relative">
-                <img className="w-full rounded-xl" src={loginImg} alt="login image" />
+            
+            <div className="flex-1 w-full md:max-w-[45%] relative">
+                <img className="w-full " src={loginImg} alt="login image" />
 
                 {/* Overlay */}
-                <div className="absolute rounded-xl inset-0 bg-black opacity-70 bg-opacity-70 flex flex-col items-center justify-center p-4">
+                <div className="absolute  inset-0 bg-black opacity-70 bg-opacity-70 flex flex-col items-center justify-center p-4">
                     <div className="flex items-center justify-center text-white text-2xl font-bold w-32 h-32 bg-blue-500 rounded-full mb-4">
                         F
                     </div>

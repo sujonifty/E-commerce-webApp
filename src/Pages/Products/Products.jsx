@@ -8,17 +8,20 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [products, setProducts] = useState([]);
     const [allProducts, setAllProducts] = useState([]);
+    
 
     useEffect(() => {
-        fetch('http://localhost:5000/productsCount')
+        fetch('https://web-app-server-ten.vercel.app/productsCount')
             .then(res => res.json())
             .then(data => setCount(data.count))
     }, [])
+   
     useEffect(() => {
-        fetch(`http://localhost:5000/products?page=${currentPage}&&size=${itemsPerPage}`)
+        fetch(`https://web-app-server-ten.vercel.app/products?page=${currentPage}&&size=${itemsPerPage}`)
             .then(res => res.json())
             .then(data => setProducts(data))
     }, [currentPage, itemsPerPage]);
+
     // console.log(count)
     const numberOfPage = Math.ceil(count / itemsPerPage);
     // count the page 
@@ -41,10 +44,11 @@ const Products = () => {
     }
     // filter section 
     useEffect(() => {
-        fetch(`http://localhost:5000/allProducts`)
+        fetch(`https://web-app-server-ten.vercel.app/allProducts`)
             .then(res => res.json())
             .then(data => setAllProducts(data))
     }, [])
+    
     console.log('all data', allProducts)
     const handleRockingChair = () => {
 
@@ -69,9 +73,9 @@ const Products = () => {
     }
 
     return (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
             {/* Sidebar */}
-            <div className="w-1/4">
+            <div className="w-full md:w-1/4">
                 <Sidebar aria-label="Sidebar with multi-level dropdown example">
                     <Sidebar.Items >
                         <Sidebar.ItemGroup>
@@ -90,7 +94,7 @@ const Products = () => {
             </div>
 
             {/* Product Cards */}
-            <div className="w-3/4">
+            <div className="w-full md:w-3/4">
                 <div className="flex flex-wrap justify-start items-end gap-4 md:gap-10 my-10">
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-10">
                         {products.map(item => (
@@ -99,7 +103,7 @@ const Products = () => {
                     </div>
 
                     {/* Pagination and Items per Page */}
-                    <div className="flex items-center justify-center space-x-2 mt-4">
+                    <div className="flex flex-wrap items-center justify-center space-x-2 mt-4">
                         <Button onClick={handlePrevPage}>Prev</Button>
                         {pages.map(page => (
                             <Button

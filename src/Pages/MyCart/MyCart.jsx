@@ -7,8 +7,9 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const MyCart = () => {
     const [cart, refetch] = useCart();
-    const axiosPublic=useAxiosPublic();
-    const totalPrice= cart.reduce((total,item)=>total + parseInt(item.price),0)
+    const axiosPublic = useAxiosPublic();
+    const totalPrice = cart.reduce((total, item) => total + parseInt(item.price)*item.quantity, 0)
+    
     const handleDelete = id => {
         Swal.fire({
             title: "Are you sure?",
@@ -35,35 +36,52 @@ const MyCart = () => {
             }
         });
     }
+    const handleAddToProduct = (id) => {
+        axiosPublic.put(`/carts/${id}`)
+            .then(res => {
+                // console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: `added to your cart`,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    // refetch cart to update the cart items count
+                    refetch();
+                }
 
+            })
+    }
     return (
         <>
 
-            <div className="flex flex-row-reverse">
+            <div className="flex flex-col-reverse gap-y-16 my-16 md:flex-row-reverse">
                 {/* Sidebar */}
-                <div className="w-1/4 ml-10">
+                <div className="w-full md:w-1/4 md:ml-10">
                     <Card className="max-w-sm">
                         <div className="flex items-center space-x-4">
                             <div className="min-w-0 flex-1">
                                 <p className="truncate text-sm font-medium text-gray-900 ">SubTotal</p>
                             </div>
-                            <div className="inline-flex items-center text-base font-semibold text-gray-900 ">$320</div>
+                            <div className="inline-flex items-center text-base font-semibold text-gray-900 ">₹ {totalPrice}</div>
                         </div>
                         <div className="flex items-center space-x-4">
                             <div className="min-w-0 flex-1">
                                 <p className="truncate text-sm font-medium text-gray-900 ">Shiping</p>
                             </div>
-                            <div className="inline-flex items-center text-base font-semibold text-gray-900 ">₹ 320</div>
+                            <div className="inline-flex items-center text-base font-semibold text-gray-900 ">Free</div>
                         </div>
                         <div className="flex items-center space-x-4">
                             <div className="min-w-0 flex items-center space-x-2 -mb-2 flex-1">
                                 <p className="truncate ext-sm  font-medium text-gray-900 ">Estimate Tax</p>
                                 <CiCircleInfo />
                             </div>
-                            <div className="inline-flex items-center text-base font-semibold text-gray-900 ">₹ 320</div>
+                            <div className="inline-flex items-center text-base font-semibold text-gray-900 ">₹ 00</div>
                         </div>
-<hr />
-<div className="flex items-center space-x-4">
+                        <hr />
+                        <div className="flex items-center space-x-4">
                             <div className="min-w-0 flex-1">
                                 <p className="truncate text-sm font-medium text-gray-900 ">Total</p>
                             </div>
@@ -83,7 +101,7 @@ const MyCart = () => {
                 </div>
 
                 {/* Product Cards */}
-                <div className="w-3/4">
+                <div className="w-full md:w-3/4">
                     <Table hoverable>
 
                         <Table.Body className="divide-y">
@@ -92,7 +110,8 @@ const MyCart = () => {
                                     <Table.Row key={item._id} className="bg-white" >
                                         <Table.Cell className=" m-0">
                                             <div className="rounded-xl border p-1 w-12 space-x-2 flex justify-center items-center ">
-                                                <span className="text-lg font-bold">1</span><FaPlus />
+                                                <span className="text-lg font-bold">{item.quantity}</span>
+                                                <FaPlus onClick={()=>handleAddToProduct(item._id)} />
                                             </div>
                                         </Table.Cell>
                                         <Table.Cell className="p-2">
@@ -101,7 +120,7 @@ const MyCart = () => {
                                         <Table.Cell className=" mx-0">{item.title}</Table.Cell>
                                         <Table.Cell className=" relative ">
                                             <span className="absolute t bottom-2 right-5">₹ {item.price}</span>
-                                            <CiSquareRemove onClick={()=>handleDelete(item._id)} className="absolute text-3xl top-2 right-5" />
+                                            <CiSquareRemove onClick={() => handleDelete(item._id)} className="absolute text-3xl top-2 right-5" />
                                         </Table.Cell>
 
                                     </Table.Row>

@@ -1,4 +1,4 @@
-import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { Avatar, Button, Dropdown, Navbar } from "flowbite-react";
 import { useContext } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../Provider/AuthProvider";
@@ -8,7 +8,7 @@ import useCart from "../hooks/useCart";
 import { Link } from "react-router-dom";
 const Nav = () => {
     const { user, logOut } = useContext(AuthContext);
-    const [cart]=useCart();
+    const [cart] = useCart();
     // console.log('cart data',cart)
     const handleLogOut = () => {
         logOut()
@@ -33,9 +33,9 @@ const Nav = () => {
             {
                 user ?
                     <>
-                        <div className="flex md:order-2">
+                        <div className="flex md:order-2 space-x-2">
                             <Link to="/carts" className="flex mr-4">
-                            <CiShoppingCart className=" text-3xl"/>
+                                <CiShoppingCart className=" text-3xl" />
                                 <h1 className="  text-black -ml-l "><span>{cart.length}</span></h1>
                             </Link>
                             <Dropdown
@@ -58,7 +58,7 @@ const Nav = () => {
                         </div>
 
                         <Navbar.Collapse>
-                            <Navbar.Link href="#" active>
+                            <Navbar.Link href="/" active>
                                 Home
                             </Navbar.Link>
                             <Navbar.Link href="/products">Products</Navbar.Link>
@@ -72,8 +72,12 @@ const Nav = () => {
                     <>
 
 
+                        <div className="flex md:order-2 space-x-2">  
+                            <Button><Link to="/login">Login</Link></Button>
+                            <Navbar.Toggle />
+                        </div>
                         <Navbar.Collapse>
-                            <Navbar.Link href="#" active>
+                            <Navbar.Link href="/" active>
                                 Home
                             </Navbar.Link>
                             <Navbar.Link href="/products">Products</Navbar.Link>
@@ -82,7 +86,7 @@ const Nav = () => {
                             <Navbar.Link href="#">Custom</Navbar.Link>
                             <Navbar.Link href="#">Blog</Navbar.Link>
                         </Navbar.Collapse>
-                        <Navbar.Link href="/login">Login</Navbar.Link>
+
                     </>
             }
 

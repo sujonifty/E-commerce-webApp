@@ -64,9 +64,9 @@ const Register = () => {
             })
     }
     return (
-        <div className="flex justify-center items-center">
+        <div className="flex flex-col md:flex-row md:space-x-16  space-y-16  justify-center items-center">
 
-            <div className=" max-w-[55%] mx-auto">
+            <div className=" max-w-full md:max-w-[55%] mt-16  mx-auto">
                 <Card className=" max-w-screen md:p-10 bg-[#FAFAFA]">
                     <h4 className="text-3xl font-medium">Welcome Back!</h4>
                     <h3 className="text-4xl font-bold">
@@ -163,11 +163,11 @@ const Register = () => {
                 </Card>
             </div>
 
-            <div className="flex-1 max-w-[45%] h-full relative">
+            <div className="w-full md:max-w-[45%] md:h-full relative">
                 <img className="w-full" src={loginImg} alt="login image" />
 
                 {/* Overlay */}
-                <div className="absolute rounded-xl inset-0 bg-black opacity-70 bg-opacity-70 flex flex-col items-center justify-center p-4">
+                <div className="absolute  inset-0 bg-black opacity-70 bg-opacity-70 flex flex-col items-center justify-center p-4">
                     <div className="flex items-center justify-center text-white text-2xl font-bold w-32 h-32 bg-blue-500 rounded-full mb-4">
                         F
                     </div>
