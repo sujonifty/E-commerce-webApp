@@ -4,12 +4,13 @@ import { FaPlus } from "react-icons/fa";
 import { CiCircleInfo, CiSquareRemove } from "react-icons/ci";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { Link } from "react-router-dom";
 
 const MyCart = () => {
     const [cart, refetch] = useCart();
     const axiosPublic = useAxiosPublic();
-    const totalPrice = cart.reduce((total, item) => total + parseInt(item.price)*item.quantity, 0)
-    
+    const totalPrice = cart.reduce((total, item) => total + parseInt(item.price) * item.quantity, 0)
+    // console.log('',cart.length)
     const handleDelete = id => {
         Swal.fire({
             title: "Are you sure?",
@@ -57,9 +58,10 @@ const MyCart = () => {
     return (
         <>
 
-            <div className="flex flex-col-reverse gap-y-16 my-16 md:flex-row-reverse">
+            <div className="p-5 flex flex-col-reverse justify-evenly gap-y-16 my-16 md:flex-row-reverse">
                 {/* Sidebar */}
                 <div className="w-full md:w-1/4 md:ml-10">
+                    <h3 className="text-3xl font-bold my-4">Order details</h3>
                     <Card className="max-w-sm">
                         <div className="flex items-center space-x-4">
                             <div className="min-w-0 flex-1">
@@ -88,7 +90,7 @@ const MyCart = () => {
                             <div className="inline-flex items-center text-base font-semibold text-gray-900 ">₹ {totalPrice}</div>
                         </div>
                         <Button className="bg-black">
-                            <span className="-mt-[1px]">Checkout</span>
+                            <Link to="/payment"><span className="-mt-[1px]">Checkout</span></Link>
                             <svg className="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     fillRule="evenodd"
@@ -101,36 +103,52 @@ const MyCart = () => {
                 </div>
 
                 {/* Product Cards */}
-                <div className="w-full md:w-3/4">
-                    <Table hoverable>
+                {
+                    cart.length !== 0 ?
+                        <div className="w-full md:w-3/4 p-5">
+                            <h3 className="text-3xl font-bold my-4">An overview of your order</h3>
+                            <Table hoverable>
 
-                        <Table.Body className="divide-y">
-                            {
-                                cart.map(item => (
-                                    <Table.Row key={item._id} className="bg-white" >
-                                        <Table.Cell className=" m-0">
-                                            <div className="rounded-xl border p-1 w-12 space-x-2 flex justify-center items-center ">
-                                                <span className="text-lg font-bold">{item.quantity}</span>
-                                                <FaPlus onClick={()=>handleAddToProduct(item._id)} />
-                                            </div>
-                                        </Table.Cell>
-                                        <Table.Cell className="p-2">
-                                            <Avatar img={item.image} size="lg" />
-                                        </Table.Cell>
-                                        <Table.Cell className=" mx-0">{item.title}</Table.Cell>
-                                        <Table.Cell className=" relative ">
-                                            <span className="absolute t bottom-2 right-5">₹ {item.price}</span>
-                                            <CiSquareRemove onClick={() => handleDelete(item._id)} className="absolute text-3xl top-2 right-5" />
-                                        </Table.Cell>
+                                <Table.Body className="divide-y">
+                                    {
+                                        cart.map(item => (
+                                            <Table.Row key={item._id} className="bg-white" >
+                                                <Table.Cell className=" m-0">
+                                                    <div className="rounded-xl border p-1 w-12 space-x-2 flex justify-center items-center ">
+                                                        <span className="text-lg font-bold">{item.quantity}</span>
+                                                        <FaPlus onClick={() => handleAddToProduct(item._id)} />
+                                                    </div>
+                                                </Table.Cell>
+                                                <Table.Cell className="p-2">
+                                                    <Avatar img={item.image} size="lg" />
+                                                </Table.Cell>
+                                                <Table.Cell className=" mx-0">{item.title}</Table.Cell>
+                                                <Table.Cell className=" relative ">
+                                                    <span className="absolute t bottom-2 right-5">₹ {item.price}</span>
+                                                    <CiSquareRemove onClick={() => handleDelete(item._id)} className="absolute text-3xl top-2 right-5" />
+                                                </Table.Cell>
 
-                                    </Table.Row>
-                                ))
-                            }
+                                            </Table.Row>
+                                        ))
+                                    }
 
-                        </Table.Body>
-                    </Table>
+                                </Table.Body>
+                            </Table>
 
-                </div>
+                        </div>
+                        :
+                        <>
+                            <Card href="#" className="max-w-sm ">
+                            <h3 className="text-2xl font-bold">An overview of order</h3>
+                               
+                                <h5 className="text-4xl mx-auto font-bold tracking-tight text-gray-400 dark:text-white">
+                                    Cart is Empty!
+                                </h5>
+
+                            </Card>
+                        </>
+
+                }
             </div>
         </>
     );
