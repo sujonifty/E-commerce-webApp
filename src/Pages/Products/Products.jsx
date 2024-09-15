@@ -73,7 +73,7 @@ const Products = () => {
     }
 
     return (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col  md:flex-row">
             {/* Sidebar */}
             <div className="w-full md:w-1/4">
                 <Sidebar aria-label="Sidebar with multi-level dropdown example">
@@ -94,9 +94,9 @@ const Products = () => {
             </div>
 
             {/* Product Cards */}
-            <div className="w-full md:w-3/4">
+            <div className="w-3/4">
                 <div className="flex flex-wrap justify-start items-end gap-4 md:gap-10 my-10">
-                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {products.map(item => (
                             <ProductCards key={item._id} item={item} />
                         ))}
