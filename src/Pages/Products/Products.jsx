@@ -94,7 +94,7 @@ const Products = () => {
             </div>
 
             {/* Product Cards */}
-            <div className="w-3/4">
+            <div className="w-full md:w-3/4">
                 <div className="flex flex-wrap justify-start items-end gap-4 md:gap-10 my-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                         {products.map(item => (
